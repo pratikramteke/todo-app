@@ -1,17 +1,27 @@
-import React, { useRef, useState } from "react";
-import style from "./style.css";
+import React, { useEffect, useRef, useState } from "react";
+import "./style.css";
+
 export default function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(() => {
+    if (JSON.parse(localStorage.getItem("todos")))
+      return JSON.parse(localStorage.getItem("todos"));
+    return [];
+  });
   const todoNameRef = useRef();
 
-  const createTodo = () => {
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
+  function createTodo(e) {
+    e.preventDefault();
     const name = todoNameRef.current.value;
     if (name === "") return;
     setTodos((prevTodos) => {
       return [...prevTodos, name];
     });
     todoNameRef.current.value = null;
-  };
+  }
 
   const editTodo = (id) => {
     const updateTodo = todos.filter((elem, ind) => {
@@ -30,15 +40,15 @@ export default function App() {
 
   return (
     <div className="container">
-      <input type="text" ref={todoNameRef} placeholder="Enter Todo" />
-      <button onClick={createTodo}>Add</button>
+      <form onSubmit={createTodo}>
+        <input type="text" ref={todoNameRef} placeholder="Enter Todo" />
+        <button onClick={createTodo}>Add</button>
+      </form>
       <div className="todo-container">
         {todos.map((elem, ind) => {
           return (
-            <div className="todo">
-              <span className={style} key={ind}>
-                {elem}
-              </span>
+            <div className="todo" key={ind}>
+              <span>{elem}</span>
               <div className="btn">
                 <button className="edit" onClick={() => editTodo(ind)}>
                   Edit
