@@ -42,7 +42,7 @@ export default function App() {
     <div className="container">
       <form onSubmit={createTodo}>
         <input type="text" ref={todoNameRef} placeholder="Enter Todo" />
-        <button onClick={createTodo}>Add</button>
+        <button type="submit">Add</button>
       </form>
       <div className="todo-container">
         {todos.map((elem, ind) => {
