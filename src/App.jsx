@@ -1,42 +1,42 @@
-import React, { useEffect, useRef, useState } from "react";
-import "./style.css";
+import React, { useEffect, useRef, useState } from "react"
+import "./style.css"
 
 export default function App() {
   const [todos, setTodos] = useState(() => {
     if (JSON.parse(localStorage.getItem("todos")))
-      return JSON.parse(localStorage.getItem("todos"));
-    return [];
-  });
-  const todoNameRef = useRef();
+      return JSON.parse(localStorage.getItem("todos"))
+    return []
+  })
+  const todoNameRef = useRef()
 
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
+    localStorage.setItem("todos", JSON.stringify(todos))
+  }, [todos])
 
   function createTodo(e) {
-    e.preventDefault();
-    const name = todoNameRef.current.value;
-    if (name === "") return;
+    e.preventDefault()
+    const name = todoNameRef.current.value
+    if (name === "") return
     setTodos((prevTodos) => {
-      return [...prevTodos, name];
-    });
-    todoNameRef.current.value = null;
+      return [...prevTodos, name]
+    })
+    todoNameRef.current.value = null
   }
 
   const editTodo = (id) => {
     const updateTodo = todos.filter((elem, ind) => {
-      return ind === id;
-    });
-    todoNameRef.current.value = updateTodo;
-    deleteTodo(id);
-  };
+      return ind === id
+    })
+    todoNameRef.current.value = updateTodo
+    deleteTodo(id)
+  }
 
   const deleteTodo = (id) => {
     const updateTodo = todos.filter((elem, ind) => {
-      return ind !== id;
-    });
-    setTodos(updateTodo);
-  };
+      return ind !== id
+    })
+    setTodos(updateTodo)
+  }
 
   return (
     <div className="container">
@@ -58,9 +58,9 @@ export default function App() {
                 </button>
               </div>
             </div>
-          );
+          )
         })}
       </div>
     </div>
-  );
+  )
 }
